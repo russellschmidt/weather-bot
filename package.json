@@ -1,0 +1,19 @@
+{
+  "name": "weather-bot",
+  "version": "0.0.1",
+  "description": "i give u weather",
+  "main": "index.js",
+  "dependencies": {
+    "axios": "^0.16.2",
+    "botpress": "1.x",
+    "botpress-web": "1.x",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1"
+  },
+  "scripts": {
+    "start": "botpress start",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "@octorusty Russell Schmidt",
+  "license": "Botpress Proprietary License"
+}
