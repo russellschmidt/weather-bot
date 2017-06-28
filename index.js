@@ -51,7 +51,6 @@ module.exports = function(bp) {
         }
       ])
       convo.createThread('weather')
-      // ask for F, C, K
       convo.threads['weather'].addQuestion(txt(phrases.getTempUnit()), [
         {
           pattern: /(celsius|fahrenheit|kelvin|c|f|k)/i,
@@ -80,10 +79,12 @@ module.exports = function(bp) {
                 location: retObj.name,
                 unit: unit
               })
+              convo.next()
             }, function(error) {
               event.reply('#weatherError', {
                 error: error
               })
+              convo.switchTo('weather')
             })
           }
         },
@@ -95,6 +96,9 @@ module.exports = function(bp) {
           }
         }
       ])
+      // ask user if they want more weather info
+      // yes-> dump and reload weather thread
+      // no-> return to main menu
 
       convo.createThread('dictionary')
       convo.threads['dictionary'].addQuestion(txt(phrases.getDictionaryWord()), [
