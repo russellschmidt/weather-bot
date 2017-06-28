@@ -15,10 +15,31 @@ welcome: # this is the #welcome bloc referenced in index.js
 goodbye:
   - text: You are leaving because of reason {{reason}}
     typing: true
-  - Hope to see you back again soon!
+  - text: Hope to see you back again soon!
+
+robobotGreeting:
+  - text:
+    - I am Robo-bot 2000, an invention from the distant future, the year 2000.
+    - I am from the future. The year 2000. Robo-bot 2000.
+    - Greetings from the future. It is I, Robo-bot 2000, from 2000 AD.
+
+mainMenu:
+  - text:
+    - I can provide WEATHER, DICTIONARY. Type your choice.
+
+badInput:
+  - text: Sorry I did not understand that. Does not compute.
 
 weather:
-  - text: It is {{temp}} {{unit}} in {{loc}}
+  - text: It is {{temp}} {{unit}} in {{location}}
 
 weatherError:
-  - text: Error! {{err}}
+  - text: Error! {{error}}
+
+getWeatherCity:
+  - text:
+    - Type in a city to get the weather
+
+getDictionaryWord:
+  - text:
+    - Tell me a word and I can define it for you

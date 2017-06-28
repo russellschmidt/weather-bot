@@ -6,7 +6,9 @@
   "dependencies": {
     "axios": "^0.16.2",
     "botpress": "1.x",
+    "botpress-messenger": "^2.1.3",
     "botpress-web": "1.x",
+    "lodash": "^4.17.4",
     "react": "^15.6.1",
     "react-dom": "^15.6.1"
   },
