@@ -53,9 +53,30 @@ module.exports = function(bp) {
       convo.createThread('weather')
       convo.threads['weather'].addQuestion(txt(phrases.getTempUnit()), [
         {
-          pattern: /(celsius|fahrenheit|kelvin|c|f|k)/i,
+          pattern: /(celsius|fahrenheit|kelvin|C|F|K)/i,
           callback: (response) => {
-            convo.set('unit', response.match || 'C')
+            switch(response.match.toLowerCase()) {
+              case 'celsius':
+                convo.set('unit', 'C')
+                break
+              case 'c':
+                convo.set('unit', 'C')
+                break
+              case 'fahrenheit':
+                convo.set('unit', 'F')
+                break
+              case 'f':
+                convo.set('unit', 'F')
+                break
+              case 'kelvin':
+                convo.set('unit', 'K')
+                break
+              case 'k':
+                convo.set('unit', 'K')
+                break
+              default:
+                convo.set('unit', 'C')
+            }
             unit = convo.get('unit')
             convo.next()
           }
@@ -84,7 +105,7 @@ module.exports = function(bp) {
               event.reply('#weatherError', {
                 error: error
               })
-              convo.switchTo('weather')
+              convo.switchTo('repeatWeather')
             })
           }
         },
@@ -99,6 +120,34 @@ module.exports = function(bp) {
       // ask user if they want more weather info
       // yes-> dump and reload weather thread
       // no-> return to main menu
+      convo.threads['weather'].addQuestion(txt(phrases.promptForMoreWeather()), [
+        {
+          pattern: interjections.yes,
+          callback: () => {
+            convo.say(txt(phrases.newWeatherReport()))
+            convo.switchTo('repeatWeather')
+          }
+        },
+        {
+          pattern: interjections.no,
+          callback: () => {
+            convo.say(txt(phrases.returnToMainMenu()))
+            convo.switchTo('default')
+          }
+        },
+        {
+          default: true,
+          callback: () => {
+            convo.say(txt(phrases.badInput()))
+            convo.repeat()
+          }
+        }
+      ])
+
+      convo.createThread('repeatWeather')
+      convo.threads['repeatWeather'].addMessage(txt(phrases.moreCowbell()), () => {
+        return convo.switchTo('weather')
+      })
 
       convo.createThread('dictionary')
       convo.threads['dictionary'].addQuestion(txt(phrases.getDictionaryWord()), [
@@ -121,26 +170,6 @@ module.exports = function(bp) {
         reason: 'too much tuna'
       })
     })
-
-
-
-
-    // bp.hear({
-    //   type: /message|text/i,
-    //   text: /weather/i,
-    // }, (event, next) => {
-    //   WeatherAPI.getTemp(loc, unit).then(function(retObj) {
-    //     event.reply('#weather', {
-    //       temp: retObj.temp,
-    //       loc: retObj.name,
-    //       unit: unit
-    //     })
-    //   }, function(err) {
-    //     event.reply('#weatherError', {
-    //       error: error
-    //     })
-    //   })
-    // })
 
   })
 }
